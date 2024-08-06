@@ -1,0 +1,41 @@
+-Inter-VLAN routing:- is a process used in networking to allow devices on different VLANs (Virtual Local Area Networks) to communicate with each other.
+In inter-vlan we take a layer 3 switch and create a SVI(Switched Virtual Interface) is a virtual interface on a Layer 3 switch that is used to enable routing and
+provide Layer 3 IP services for VLANs.
+
+-EXAMPLE:-
+Imagine a college with different departments, each with its own VLAN.Each department has its own network needs and security requirements, and
+thus, each is placed in a separate VLAN. The network topology might look something like shown in the diagram.
+
+-take a 3560 L-3 switch with 4 PC's
+-create 2 VLAN: 
+VLAN 10 - For IT Department 
+VLAN 11 - For HR
+>enable
+hashtag#conf t
+hashtag#vlan 10
+hashtag#name IT
+hashtag#ex
+hashtag#vlan 11
+hashtag#name HR
+hashtag#ex
+
+-Now assign the PC's to the Vlans:
+VLAN 10 on the switch ports fa0/1- 2
+and fa0/3-4 for VLAN 11.
+
+Switch# int range fa0/1-2
+Switch# switchport access vlan 10
+Switch# int range fa0/3-4
+Switch# switchport access vlan 11
+
+-Now create the SVI for vlans:-
+-for vlan10:
+Switch# ip routing
+Switch# int vlan 10
+Switch# ip address 192.168.10.1 255.255.255.0
+
+-for vlan 11:
+Switch# int vlan 11
+Switch# ip address 192.168.11.1 255.255.255.0
+
+-now give the Ip address & gateway address to all PC's and go to the command prompt and ping the pc.
