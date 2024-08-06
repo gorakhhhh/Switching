@@ -1,0 +1,72 @@
+VLAN Trunking Protocol (VTP):- is a Cisco proprietary protocol that propagates the definition of Virtual Local Area Networks (VLAN) on the whole local area network.
+To do this, VTP carries VLAN information to all the switches in a VTP domain.
+
+-Key Features of VTP:
+•VTP Domain: A group of switches that share VLAN information. All switches in a domain should have the same VTP domain name.
+
+-VTP Modes: Switches can operate in different VTP modes:
+•Server Mode: Allows you to create, modify, and delete VLANs for the entire VTP domain. Changes made in server mode are propagated to all switches in the domain.
+
+•Client Mode: Cannot create, modify, or delete VLANs. It only receives VLAN information from VTP servers and applies those changes.
+
+•Transparent Mode: Switches do not participate in VTP but can forward VTP messages. They can have locally significant VLANs.
+
+Example: VTP Configuration with 2 Switches:
+•Switch1 (VTP Server)
+•Switch2 (VTP Client)
+
+-Step 1 create a vlan:
+>en
+# configure terminal
+Switch1(config)# vlan 10
+Switch1(config-vlan)# name IT
+Switch1(config-vlan)# exit
+Switch1(config)# vlan 20
+Switch1(config-vlan)# name HR
+Switch1(config-vlan)# exit
+Switch1(config)# exit
+Switch1# show vlan brief
+
+Switch2(config)# vlan 10
+Switch2(config-vlan)# name IT
+Switch2(config-vlan)# exit
+Switch2(config)# vlan 20
+Switch2(config-vlan)# name HR
+Switch2(config-vlan)# exit
+Switch2(config)# exit
+Switch2# show vlan brief
+
+-Step 2 assign PC's to vlan:
+Switch1(config)# int range fa0/1-2
+Switch1(config-if)# switchport access vlan 10
+Switch1(config-if)# exit
+
+Switch1(config)# int range fa0/3-4
+Switch1(config-if)# switchport access vlan 20
+Switch1(config-if)# exit
+
+Switch2(config)# int range fa0/1-2
+Switch2(config-if)# switchport access vlan 10
+Switch2(config-if)# exit
+
+Switch2(config)# int range fa0/3-4
+Switch2(config-if)# switchport access vlan 20
+Switch2(config-if)# exit
+
+-step 3 
+Switch1> enable
+Switch1# configure terminal
+Switch1(config)# vtp ?
+Switch1(config)# vtp mode server
+Switch1(config)# vtp domain IT
+Switch1(config)# vtp password 1234
+Switch1(config)# exit
+Switch1# int fa0/5
+Switch1#switchport mode trunk
+
+Switch2> enable
+Switch2# configure terminal
+Switch2(config)# vtp mode client
+Switch2(config)# vtp domain IT
+Switch2(config)# vtp password 1234
+Switch2(config)# exit
