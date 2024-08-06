@@ -1,0 +1,49 @@
+Router on a Stick:- is a network configuration technique used to allow a single physical router to manage multiple VLANs (Virtual Local Area Networks) on a network. 
+This is achieved by using a single router interface that is configured with subinterfaces, each corresponding to a different VLAN.
+
+-How Router on a Stick Works 
+•Single Physical Connection: You have a single physical Ethernet connection between the router and a switch.
+•Subinterfaces: The router is configured with multiple logical subinterfaces on that single physical interface. Each subinterface is associated with a different VLAN.
+•VLAN Tagging: The switch ports that connect to the router must be configured as "trunk" ports, which means they can carry traffic for multiple VLANs. Each VLAN’s traffic is tagged
+  with a unique identifier (VLAN ID).
+•Routing: The router performs inter-VLAN routing, meaning it can route traffic between different VLANs because it has interfaces (subinterfaces) in each VLAN.
+
+-Example Scenario:-
+Imagine a small office network where there are two VLANs:
+•VLAN 10 for HR'S
+•VLAN 20 for EMPLOYEES 
+
+-Now, we will make 2 different VLANs on switch namely VLAN 10 and VLAN 20
+Switch# enable
+Switch# conf t
+Switch# vlan 10
+Switch# name HR
+Switch# vlan 20
+Switch# name EMPLOYEE 
+
+-now assign the pc to vlans and connect the switch with router using trunk.
+Switch# int fa0/1
+Switch# switchport mode access
+Switch# switchport access vlan 10
+Switch# int fa0/2
+Switch# switchport mode access
+Switch# switchport access vlan 20
+Switch#int fa0/3
+Switch#switchport mode trunk
+
+- Now The router’s interface will get divided into 2 sub-interfaces (as there are 2 different VLANs) which will acts as a default gateway to their respective VLANs.
+ Then router will perform Inter VLAN Routing and the VLANs will communicate with each other.but before that we will up the gig interface 
+r1#en
+r1#conf t
+r1#int gig0/0/0
+r1#no shut 
+r1#ex
+
+r1# int gig0/0/0.1
+r1# encapsulation dot1q 10
+r1# ip address 192.168.10.1 255.255.255.0
+r1# int gig0/0/0.2
+r1# encapsulation dot1q 20
+r1# ip address 192.168.20.1 255.255.255.0
+r1#no shut
+r1#ex.
