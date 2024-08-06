@@ -1,0 +1,43 @@
+STP(Spanning Tree Protocol):- 
+-network protocol that ensures a loop-free topology for computer networks using Ethernet bridges (switches).
+-The protocol uses an algorithm to determine the best path for traffic, avoiding loops by blocking certain paths.
+-important operation of STP is electing the root bridge and determine the best path.
+-Bridge Protocol Data Units (BPDUs) are a critical component of the Spanning Tree Protocol (STP). They are network messages exchanged between switches in a Layer 2 network. BPDUs carry information necessary for switches to perform the operations required by STP, such as electing a Root Bridge, calculating the best paths, and preventing loops in the network.
+
+//STP Process//:
+1.Elect the Root Bridge:
+-Suppose Switch A has the lowest Bridge ID. It becomes the Root Bridge.
+
+2.Determine the Root Port for Each Switch:
+-Switch B will choose the port connected to Switch A as its Root Port because it directly connects to the Root Bridge.
+-Switch C will also choose the port connected to Switch A as its Root Port.
+
+3.Determine the Designated Port for Each Segment:
+-On the segment between Switch A and Switch B, the port on Switch A is the Designated Port because it is the Root Bridge.
+-On the segment between Switch A and Switch C, the port on Switch A is also the Designated Port.
+
+4.Blocking Redundant Paths:
+-On the segment between Switch B and Switch C, STP will block one of the ports to prevent a loop. Let's say it blocks the port on Switch C.
+
+5. Final STP Configuration:
+
+Switch A:
+-Port to Switch B: Designated Port
+-Port to Switch C: Designated Port
+
+Switch B:
+-Port to Switch A: Root Port
+-Port to Switch C: Designated Port
+
+Switch C:
+-Port to Switch A: Root Port
+-Port to Switch B: Blocking
+
+With this configuration, STP prevents a loop by blocking the redundant path between Switch B and Switch C.
+
+Command to see which switch is the root bridge:-
+>enable 
+hashtag#conf t
+hashtag#do sh spanning -tree
+......this bridge is the root//if this occurs
+means it is root bridge so this switch take decision to cut the connection to stop the loop.
