@@ -1,0 +1,36 @@
+Virtual local area network(Vlan):-
+is a way to segment a physical network into multiple virtual networks. Each VLAN acts as if it is a separate network, even though they may share the same physical hardware.
+This allows for better organization, security, and management of network resources.
+
+-Collage Example:
+
+Imagine you are at a college campus where different departments need to share the same physical network infrastructure but keep their communications separate.
+The campus network can be divided into several vlans.As u can see in the diagram there are 3 different vlans are created in collage campus.
+
+-Creating vlans on switch:
+>enable
+hashtag#conf t
+hashtag#vlan 10
+hashtag#name CS
+hashtag#ex
+hashtag#vlan 20
+hashtag#name IT
+hashtag#ex
+hashtag#vlan 30
+hashtag#name BCOM
+hashtag#ex
+
+-We have made VLANs but the most important part is to assign switch ports to the VLANs. 
+Switch(config)hashtag#int fa0/0
+Switch(config-if)hashtag#switchport mode access
+Switch(config-if) hashtag#switchport access Vlan 10
+
+Switch(config)hashtag#int fa0/1
+Switch(config-if)hashtag#switchport mode access
+Switch(config-if) hashtag#switchport access Vlan 20
+
+Switch(config)hashtag#int fa0/2
+Switch(config-if)hashtag#switchport mode access
+Switch(config-if) hashtag#switchport access Vlan 30
+
+-After that give the IP ADDRESS to all the pc and ping the pc.
